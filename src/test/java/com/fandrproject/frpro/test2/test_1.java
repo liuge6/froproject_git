@@ -1,4 +1,4 @@
-package com.fandrproject.frpro.test;
+package com.fandrproject.frpro.test2;
 
 
 import org.junit.Test;
@@ -13,6 +13,6 @@ public class test_1 {
 
     @Test
     public static void main(String[] args) {
-        System.out.println("liugegede yige xiaochengxu ");
+        System.out.println("测试分支的功能");
     }
 }
