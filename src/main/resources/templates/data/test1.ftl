@@ -163,31 +163,31 @@
                 </tr>-->
             </table>
 
-        <div class="page-div"></div>
-    </div>
+            <div class="page-div"></div>
+        </div>
 
-    <!--脚-->
-    <div class="fotter back-grey" >
-        <div id="bottomTxt"></div>
-        <div class="sss" style="height: 300px;width: 100%;">
-            <span>标题</span>
+        <!--脚-->
+        <div class="fotter back-grey" >
+            <div id="bottomTxt"></div>
+            <div class="sss" style="height: 300px;width: 100%;">
+                <span>标题</span>
                 <input id="bTitle" type="text"/>
-            <span>价格</span>
+                <span>价格</span>
                 <input id="bPrice" type="text"/>
-            <span>作者</span>
+                <span>作者</span>
                 <input id="bAuth" type="text"/>
-            <button type="button" class="layui-btn layui-btn-xs" onclick="queryInfo()">测试</button>
-            <span id="saveEdit"  class="layui-btn layui-btn-warm layui-btn-xs" onclick="saveEdit(this)" bId="">保存</span>
+                <button type="button" class="layui-btn layui-btn-xs" onclick="queryInfo()">测试</button>
+                <span id="saveEdit"  class="layui-btn layui-btn-warm layui-btn-xs" onclick="saveEdit(this)" bId="">保存</span>
 
-            <div>
-                 <a href="http://localhost:8080/book-info/testExport" target="_blank" style="color: #5FB878" class="la"><i class="layui-icon"></i>导出_sml</a>
-            </div>
+                <div>
+                    <a href="http://localhost:8080/book-info/testExport" target="_blank" style="color: #5FB878" class="la"><i class="layui-icon"></i>导出_sml</a>
+                </div>
 
-            <div>
-                <a href="http://localhost:8080/book-info/testExportByTwoIdea" target="_blank" style="color: #5FB878" class="la"><i class="layui-icon"></i>导出_sml</a>
+                <div>
+                    <a href="http://localhost:8080/book-info/testExportByTwoIdea" target="_blank" style="color: #5FB878" class="la"><i class="layui-icon"></i>导出_sml</a>
+                </div>
             </div>
-    </div>
-    </div>
+        </div>
     </div>
 </div>
 </body>
@@ -272,7 +272,7 @@
 <script type="application/javascript">
     function queryInfo() {
 
-}
+    }
 </script>
 
 </html>

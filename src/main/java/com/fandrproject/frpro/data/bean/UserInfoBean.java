@@ -13,7 +13,15 @@ public class UserInfoBean {
 
     private String password;
 
-    private Character gender;
+    private String gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     private String nickname;
 
@@ -45,13 +53,9 @@ public class UserInfoBean {
         this.password = password;
     }
 
-    public Character getGender() {
-        return gender;
-    }
 
-    public void setGender(Character gender) {
-        this.gender = gender;
-    }
+
+
 
     public String getNickname() {
         return nickname;
@@ -77,16 +81,19 @@ public class UserInfoBean {
         this.address = address;
     }
 
-    @Override
-    public String toString() {
-        return "UserInfoBean{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", gender=" + gender +
-                ", nickname='" + nickname + '\'' +
-                ", age=" + age +
-                ", address='" + address + '\'' +
-                '}';
+
+
+    public UserInfoBean(Integer id, String username, String password, String gender, String nickname, Integer age, String address) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.gender = gender;
+        this.nickname = nickname;
+        this.age = age;
+        this.address = address;
     }
+
+
+
+
 }

@@ -1,14 +1,20 @@
 package com.fandrproject.frpro.data.controller;
 
+import com.fandrproject.frpro.data.bean.UserInfoBean;
+import com.fandrproject.frpro.data.util.HzExcelExportUtil;
+import com.fandrproject.frpro.data.util.HzExportExcelDataFormater;
+import com.fandrproject.frpro.data.util.HzFileUtil;
 import com.fandrproject.frpro.data.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -27,55 +33,68 @@ public class BookInfoController {
     @RequestMapping("book-info-web")
     @ResponseBody
     public ModelAndView bookInfoWeb() {
-        StringBuilder aa = new StringBuilder();
-        StringBuilder bb = new StringBuilder();
-
-        List<String> testStr = new ArrayList<>();
-
-
-        List<String> getStr = new ArrayList<>();
-
-        Map<String, Object> mp = new HashMap<>();
-
-
-        Random r = new Random();
-        for(int i = 0; i < 1000000;i++) {
-            String s = String.valueOf(r.nextInt(1000000));
-            testStr.add(s);
-            mp.put(s, "");
-        }
-
-        for (int i = 10000; i  < 1000;i++) {
-            String s1 = String.valueOf(r.nextInt(123213213));
-            getStr.add(s1);
-        }
-
-        long ls = System.currentTimeMillis();
-        for(int i = 0; i < testStr.size();i++) {
-            for(int j = 0; j < getStr.size();i++) {
-                if(testStr.get(i).equals(getStr.get(i))) {
-                    aa.append(testStr.get(i));
-                }
-            }
-        }
-        long le = System.currentTimeMillis();
-
-        System.out.println("======>forend"+ aa + (le-ls));
-
-
-
-        long ms = System.currentTimeMillis();
-        for (int i = 10000; i  < 1000;i++) {
-            String s1 = String.valueOf(r.nextInt(123213213));
-            if(mp.containsKey(s1)) {
-                bb.append(s1);
-            }
-        }
-        long me = System.currentTimeMillis();
-        System.out.println("======>mapend"+ bb + (me - ms));
-
-        System.out.println(aa);
+//        StringBuilder aa = new StringBuilder();
+//        StringBuilder bb = new StringBuilder();
+//
+//        List<String> testStr = new ArrayList<>();
+//
+//
+//        List<String> getStr = new ArrayList<>();
+//
+//        Map<String, Object> mp = new HashMap<>();
+//
+//
+//        Random r = new Random();
+//        for(int i = 0; i < 1000000;i++) {
+//            String s = String.valueOf(r.nextInt(1000000));
+//            testStr.add(s);
+//            mp.put(s, "");
+//        }
+//
+//        for (int i = 10000; i  < 1000;i++) {
+//            String s1 = String.valueOf(r.nextInt(123213213));
+//            getStr.add(s1);
+//        }
+//
+//        long ls = System.currentTimeMillis();
+//        for(int i = 0; i < testStr.size();i++) {
+//            for(int j = 0; j < getStr.size();i++) {
+//                if(testStr.get(i).equals(getStr.get(i))) {
+//                    aa.append(testStr.get(i));
+//                }
+//            }
+//        }
+//        long le = System.currentTimeMillis();
+//
+//        System.out.println("======>forend"+ aa + (le-ls));
+//
+//queryInfo()
+//
+//        long ms = System.currentTimeMillis();
+//        for (int i = 10000; i  < 1000;i++) {
+//            String s1 = String.valueOf(r.nextInt(123213213));
+//            if(mp.containsKey(s1)) {
+//                bb.append(s1);
+//            }
+//        }
+//        long me = System.currentTimeMillis();
+//        System.out.println("======>mapend"+ bb + (me - ms));
+//
+//        System.out.println(aa);
         ModelAndView mv = new ModelAndView("data/demo");
+        return mv;
+    }
+
+
+    /**
+     * 跳转登录页面
+     * @return
+     */
+    @RequestMapping(value = "book-info-login", method = RequestMethod.GET)
+    @ResponseBody
+    public ModelAndView bookInfoTest() {
+        ModelAndView mv = new ModelAndView("data/login");
+
         return mv;
     }
 
@@ -115,6 +134,7 @@ public class BookInfoController {
         mv.addObject("bookLIst", bookLIst);
         return mv;
     }
+
 
 
     @RequestMapping(value = "delete-by-id", method = RequestMethod.POST)
@@ -183,4 +203,98 @@ public class BookInfoController {
         return null;
     }
 
+    /**
+     * sui导出excel20200920兄嘚浩的自写的那种方案
+     * 页面在demo.html
+     * @param request
+     * @param response
+     */
+    @GetMapping("testExport")
+    @ResponseBody
+    public void testExport(HttpServletRequest request, HttpServletResponse response) {
+        //创建一个文件夹
+        String path = "F:\\excel";
+        File excelFile = new File(path);
+        OutputStream outputStream;
+        BufferedOutputStream out = null;
+        FileInputStream file = null;
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        InputStream inputStream = null;
+        //创建一个excel文档
+        String fileName = "text.xlsx";
+
+        try {
+
+            if (!excelFile.exists()) {
+                excelFile.mkdirs();
+            }
+            excelFile = new File(path + "\\" + fileName);
+            outputStream = new FileOutputStream(excelFile);
+            //创建excel显示的中文名称
+            String[] titles = {"标识 ", "用户名", "密码", "性别","昵称","年龄","地址"};
+            //创建execl显示的实体名称
+            String[] field = {"id", "username", "password", "gender", "nickname", "age", "address"};
+            HzExcelExportUtil excel = new HzExcelExportUtil(outputStream, true);
+
+            HzExportExcelDataFormater formater = new HzExportExcelDataFormater() {
+                @Override
+                public Object format(Field filed, Object value, Object rowValue) {
+                    if ("gender".equals(filed.getName())) {
+                        if (value.equals("1")) {
+                            return "男";
+                        } else if (value.equals("2")) {
+                            return "女";
+                        } else if (value == "") {
+                            return "无性别";
+                        }
+                    }
+                    return value;
+                }
+            };
+
+            List<UserInfoBean> dataList = new ArrayList<>();
+            UserInfoBean user1 = new UserInfoBean(1001, "zhangsan"
+                    , "123123", "1", "asd", 18, "nanjing");
+
+            dataList.add(user1);
+
+                excel.creatSheet("第一个sheet  页")
+                        .addTitle(titles)
+                        .setField(field, UserInfoBean.class)
+                        .addData(dataList, formater)
+                        .bulid();
+
+            response.setHeader("Accept-Ranges", "bytes");
+            response.addHeader("Content-Disposition", "attachment; filename*=UTF-8''" + fileName);
+            response.setContentType(HzFileUtil.setContentType(fileName));
+            out = new BufferedOutputStream(response.getOutputStream());
+            int index;
+            fis = new FileInputStream(excelFile);
+            bis = new BufferedInputStream(fis);
+
+            if (bis.available() > 0) {
+                byte[] bufs = new byte[10240];
+                boolean var55 = false;
+                while ((index = bis.read(bufs, 0, 10240)) != -1) {
+                    out.write(bufs, 0, index);
+                }
+
+            } else {
+                System.out.println("文件下载失败，失败原因【空文件】");
+            }
+            return;
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        }   catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
 }
