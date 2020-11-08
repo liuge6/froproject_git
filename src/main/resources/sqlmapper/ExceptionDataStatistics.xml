@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace为dao层接口的位置-->
+<!--todo 换路径-->
+<mapper namespace="com.fandrproject.frpro.data.dao.ExceptionDataStatisticsDao">
+
+    <!--定义sql将字段全部放进去提高可用性-->
+    <sql id="data_list">
+        id                          id,
+        table_name                  tableName,
+        exception_allgross          exceptionAllgross,
+        create_date                 createDate,
+        create_time                 createTime
+    </sql>
+
+    <!--查询出柱状图所有的数据：parameterType sql语句中需要传入的参数， 类型要与对应的接口方法的类型一致-->
+    <!--resultType 定义出参，匹配普通java类型或自定义的pojo  说白了就是前面接收它的返回值类型;; int  List就是list里面的泛型-->
+    <select id="queryByBarData" parameterType="java.util.Map"
+            resultType="com.fandrproject.frpro.data.bean.ExceptionDataStatisticsBean">
+        select
+            <include refid="data_list"/>
+        from
+            divide_exception_data_statistics
+       <where>
+           <if test="tableName !=null and tableName != ''" >
+               table_name = #{tableName}
+           </if>
+           <if test="exceptionAllgross !=null and exceptionAllgross != ''" >
+               exception_allgross = #{exceptionAllgross}
+           </if>
+       </where>
+       order by table_name
+    </select>
+</mapper>
