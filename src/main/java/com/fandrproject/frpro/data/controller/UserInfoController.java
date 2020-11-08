@@ -7,9 +7,9 @@ import com.fandrproject.frpro.data.service.UserInfoService;
 import com.fandrproject.frpro.data.utils.ResponseUtil;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +21,8 @@ import java.util.*;
  * Created by sml
  * 2020/08/09 09:24
  */
-@Controller
-@RequestMapping(value = "user-curd", method = { RequestMethod.GET, RequestMethod.POST })
+@RestController
+@RequestMapping(value = "/user-curd")
 public class UserInfoController {
 
     @Autowired
@@ -40,6 +40,33 @@ public class UserInfoController {
         ModelAndView view = new ModelAndView("data/data2");
         return view;
     }
+
+    /**
+     * 异常数据跳转 跳转页面
+     * @return
+     */
+    @RequestMapping(value = "/toDataException", method = RequestMethod.POST)
+    public ModelAndView  toDataException() {
+
+        ModelAndView view = new ModelAndView("exceptiondatacount/newAllException");
+        return view;
+    }
+
+
+    /**
+     * 验证mysql是否能进入数据库
+     * @param userInfoBean
+     */
+
+    @RequestMapping(value = "/saveData")
+    public void  saveData(UserInfoBean userInfoBean) {
+        userInfoBean.setNickname("zhansan");
+        userInfoBean.setAddress("xxxx");
+        userInfoBean.setGender("男");
+        userInfoService.addUserInfo(userInfoBean);
+    }
+
+
 
     /**
      * 2.就是利用 String这种知直接跳页面的方式

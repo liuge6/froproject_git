@@ -1,4 +1,4 @@
-package com.fandrproject.frpro.data.serviceImpl;
+package com.fandrproject.frpro.data.service.impl;
 
 import com.fandrproject.frpro.data.bean.UserInfoBean;
 import com.fandrproject.frpro.data.dao.UserInfoDao;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by sml
- * 2020/08/09 17:13
+ * 2020/11/08 11:04
  */
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
 
-
+    @Autowired
     private UserInfoDao userInfoDao;
 
 

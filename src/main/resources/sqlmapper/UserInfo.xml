@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!--namespace为dao层接口的位置-->
+<!--todo 换路径-->
 <mapper namespace="com.fandrproject.frpro.data.dao.UserInfoDao">
+
     <!--新增userInfo-->
     <insert id="addUser" parameterType="com.fandrproject.frpro.data.bean.UserInfoBean">
-        insert info
+        insert into
         user_info
             (username,password,gender,nickname,age,address)
         values
-             #{username},
-             #{password},
-             #{gender},
-             #{nickname},
-             #{age},
-             #{address}
+            (
+                 #{username},
+                 #{password},
+                 #{gender},
+                 #{nickname},
+                 #{age},
+                 #{address}
+             )
     </insert>
 </mapper>
