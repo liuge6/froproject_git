@@ -40,7 +40,7 @@ public class DmSubjectSetGroupConfController {
      */
     @RequestMapping("toDivideExceptionDatas")
     public String toDivideExceptionDatas() {
-        return "exceptiondatacount/divideExceptionDataAll";
+        return "exceptiondatacount/divideExceptionDataCount.ftl";
     }
 
 
