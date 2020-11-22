@@ -21,4 +21,25 @@
             #{createDate},
             #{createTime})
     </insert>
+
+    <!--分页查询-->
+    <select id="queryLimitData" parameterType="java.util.Map" resultType="com.fandrproject.frpro.osanddivide.bean.ExceptionDataBean">
+        select
+            <include refid="exceptionList"/>
+        from
+            divide_exception_data_statistics
+        <where>
+            <if test="tableName != null and tableName != ''">
+                and table_name = #{tableName}
+            </if>
+            <if test="exceptionAllgross != null and exceptionAllgross != ''">
+                and exception_allgross = #{exceptionAllgross}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and create_date = #{createDate}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
 </mapper>
