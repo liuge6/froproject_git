@@ -45,11 +45,13 @@ public class ExceptionDataServiceImpl implements ExceptionDataService {
     public String queryByLimitData(HttpServletRequest request) {
         //定义一个查询结果
         Map<String, Object> resultMap = new HashMap<>();
+
         String rows = request.getParameter("rows");
         String page = request.getParameter("page");
         rows = StringUtils.isEmpty(rows) ? "10" : rows;
-        page = StringUtils.isEmpty(page) ? "10" : page;
+        page = StringUtils.isEmpty(page) ? "1" : page;
 
+        //定义查询条件来查询所有数据
         Map<String, Object> params = new HashMap<>();
         String tableName = request.getParameter("tableName");
         String exceptionAllgross = request.getParameter("exceptionAllgross");
@@ -61,6 +63,7 @@ public class ExceptionDataServiceImpl implements ExceptionDataService {
         int code = 0;
         long totalNum = 0;
 
+        //利用查询条件来查询出所有数据
         List<ExceptionDataBean> resultList = new ArrayList<>();
         try {
             PageHelper.startPage(pageNum, pageSize);
