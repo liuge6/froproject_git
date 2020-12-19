@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fandrproject.frpro.osanddivide.dao.DividePayTypeSMLDao">
+
+    <!--分成支付方式 数据库对应实体字段-->
+    <sql id="payTypeConfigColumn">
+        id                  id,
+        pay_code            payCode,
+        bank_type_code      bankTypeCode,
+        create_time         createTime,
+        update_time         updateTime,
+        is_delete           isDelete
+    </sql>
+
+    <!--新增分成支付方式-->
+    <insert id="savePayTypeConfigInfo">
+        insert into
+            divide_pay_type_config
+        (
+            pay_code,
+            bank_type_code,
+            create_time,
+            update_time,
+            is_delete
+        )
+        values
+        (
+            #{payCode},
+            #{bankTypeCode},
+            #{createTime},
+            #{updateTime},
+            '0'
+        )
+    </insert>
+
+    <!--排重 根据payCode 和 bankTypeCode-->
+    <select id="checkRepeat" parameterType="com.fandrproject.frpro.osanddivide.bean.DividePayTypeConfigBean" resultType="int">
+        select
+            count(id)
+        from
+            divide_pay_type_config
+        where
+            pay_code = #{payCode}
+        and
+            bank_type_code = #{bankTypeCode}
+    </select>
+
+    <!--分页查询 未删除删除的数据-->
+    <!--模糊查询 两种写法均可。concat    另一种就是字符串拼接-->
+    <select id="queryLimitDatas" parameterType="java.util.Map" resultType="com.fandrproject.frpro.osanddivide.bean.DividePayTypeConfigBean">
+        select
+            <include refid="payTypeConfigColumn"></include>
+        from
+            divide_pay_type_config
+        where
+            is_delete = '0'
+        <if test="payCode != null and payCode != ''">
+            AND pay_code like concat("%", #{payCode}, "%")
+        </if>
+        <if test="bankTypeCode != null and bankTypeCode != ''">
+            AND bank_type_code like "%"#{bankTypeCode}"%"
+        </if>
+        order by create_time desc, id desc
+    </select>
+</mapper>
