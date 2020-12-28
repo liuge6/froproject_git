@@ -62,4 +62,15 @@
         </if>
         order by create_time desc, id desc
     </select>
+
+    <!--根据id 查询详情-->
+    <select id="queryPayConfigById" parameterType="java.lang.String" resultType="com.fandrproject.frpro.osanddivide.bean.DividePayTypeConfigBean">
+        select
+            <include refid="payTypeConfigColumn"></include>
+        from
+            divide_pay_type_config
+        where
+            id = #{id}
+    </select>
+
 </mapper>

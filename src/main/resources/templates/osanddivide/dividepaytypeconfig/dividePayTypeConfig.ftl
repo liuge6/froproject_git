@@ -187,6 +187,13 @@
             </div>
         </div>
 
+        <#--列表展示的操作按钮，将按钮动态写入列表中，只需要一个属性即可  toolbar : '#tableOption'-->
+        <div id="tableOption" style="display: none">
+            <a class="layui-btn layui-btn-warm layui-btn-sm"  onclick="updateByIdOpenWindow()">修改</a>
+            <a class="layui-btn layui-btn-sm" onclick="deleteById()">删除</a>
+        </div>
+
+
         <#--新增页面弹窗-->
         <div class="pay-type-add" style="display: none" id="payTypeAdd">
             <#--弹窗页面-->
@@ -202,14 +209,65 @@
             </table>
             <#--保存、返回按钮-->
             <div class="add-open-window" style="text-align: center;margin-top: 40px;">
-                <a href="javascript:" class="btn-class" onclick="clickClose();">返回</a>
-                <a href="javascript:void(0);" class="btn-class" onclick="savePayTypeConfig();">保存</a>
+                <a href="javascript:" class="btn-class aaa" onclick="clickClose();">返回</a>
+                <a href="javascript:void(0);" class="btn-class aaa" onclick="savePayTypeConfig();">保存</a>
+            </div>
+        </div>
+
+
+
+        <#--修改页面弹窗-->
+        <div class="pay-type-update" style="display: none" id="payTypeUpdate">
+            <#--弹窗页面-->
+            <table class="pay-table">
+                <tr>
+                    <td width="20%"><span style="color: red">*</span>支付方式：</td>
+                    <td><input id="addPayCode" type="text" class="normal-input" placeholder="请输入支付方式" maxlength="100"></td>
+                </tr>
+                <tr>
+                    <td width="20%">银行种类编码：</td>
+                    <td><input id="addBankTypeCode" type="text" class="normal-input" placeholder="请输入银行种类编码" maxlength="100"></td>
+                </tr>
+            </table>
+            <#--保存、返回按钮-->
+            <div class="add-open-window" style="text-align: center;margin-top: 40px;">
+                <a href="javascript:" class="btn-class aaa" onclick="clickClose();">返回</a>
+                <a href="javascript:void(0);" class="btn-class aaa" onclick="updatePayTypeConfig();">保存</a>
             </div>
         </div>
     </div>
 
     <#--增删改查-->
     <script>
+
+        /*修改弹窗*/
+        function updateByIdOpenWindow() {
+            debugger
+            layui.use("layer", function() {
+                var layer = layui.layer;
+                layer.open({
+                    type : 1,
+                    skin : 'layui-layer-molv',
+                    shift: 1,
+                    offset: '150px',
+                    area : [ '480px','300px' ], // 只设置宽度 如果要设置宽度、高度： ['500px','300px']
+                    content : $("#payTypeUpdate"), // 这里content是一个html
+                    title : "新增支付方式",
+                    yes : function(index, layero) {
+
+                    },
+                    success : function() {
+                        // 清空表单数据
+                        /*$('#payTypeAdd')[0].reset();*/
+                    }
+                });
+            });
+        }
+        function updatePayTypeConfig(data) {
+
+            alert(123);
+        }
+
 
         $(function () {
             queryPayTypeLimit();
@@ -223,7 +281,8 @@
             //拼接参数
             var params = {
                 payCode : payCode,
-                bankTypeCode : bankTypeCode
+                bankTypeCode : bankTypeCode,
+
             };
             var options = {
                 id : 'payTypelimitData',
@@ -264,7 +323,8 @@
                         title : '操作',
                         fixed : 'right',
                         align : 'center',
-                        width : '20%'
+                        width : '20%',
+                        toolbar : '#tableOption'
                     }] ],
 
                 cellMinWidth : 10,

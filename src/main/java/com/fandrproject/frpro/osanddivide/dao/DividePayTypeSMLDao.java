@@ -32,4 +32,11 @@ public interface DividePayTypeSMLDao {
      * @return
      */
     List<DividePayTypeConfigBean> queryLimitDatas(Map<String, String> paramMap);
+
+    /**
+     * 根据 id 查询详情
+     * @param id
+     * @return
+     */
+    DividePayTypeConfigBean queryPayConfigById(String id);
 }

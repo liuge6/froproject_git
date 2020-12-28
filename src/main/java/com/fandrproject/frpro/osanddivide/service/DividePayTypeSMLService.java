@@ -31,4 +31,11 @@ public interface DividePayTypeSMLService {
      * @return
      */
     String queryPayTypeLimit(HttpServletRequest request);
+
+    /**
+     *根据id 查询所有的信息
+     * @param id
+     * @return
+     */
+    DividePayTypeConfigBean queryPayConfigById(String id);
 }

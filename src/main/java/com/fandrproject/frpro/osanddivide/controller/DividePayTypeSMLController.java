@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -89,5 +90,27 @@ public class DividePayTypeSMLController {
     public String queryPayTypeLimit(HttpServletRequest request) {
 
         return dividePayTypeSMLService.queryPayTypeLimit(request);
+    }
+
+    /**
+     * 根据 id 查询修改的数据跳修改中间页
+     * @param id
+     * @return
+     */
+    @RequestMapping("/toConfigUpdateWeb")
+    public ModelAndView toConfigUpdateWeb(String id) {
+
+        if (StringUtils.isEmpty(id)){
+            return null;
+        }
+        DividePayTypeConfigBean model = dividePayTypeSMLService.queryPayConfigById(id);
+        ModelAndView mv = new ModelAndView("osanddivide/dividepaytypeconfig/dividePayTypeConfigUpdate");
+        mv.addObject("data", model);
+        return mv;
+    }
+
+    @RequestMapping("/toConfigUpdateWeb2")
+    public String toConfigUpdateWeb2() {
+        return "osanddivide/dividepaytypeconfig/dividePayTypeConfigUpdate";
     }
 }

@@ -88,4 +88,9 @@ public class DividePayTypeSMLImpl implements DividePayTypeSMLService {
 
         return JSON.toJSONString(resultMap);
     }
+
+    @Override
+    public DividePayTypeConfigBean queryPayConfigById(String id) {
+        return dividePayTypeSMLDao.queryPayConfigById(id);
+    }
 }
